@@ -1,0 +1,134 @@
+openapi: 3.0.3
+info:
+  title: Search Book API
+  description: API to find library that has searching books.
+  version: 1.0.0
+servers:
+  - url: https://api.calil.jp
+paths:
+  /library:
+    get:
+      tags:
+        - v1
+      summary: Returns a list of libraries.
+      operationId: getLibraries
+      parameters:
+        - name: appkey
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: pref
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: city
+          in: query
+          schema:
+            type: string
+        - name: systemid
+          in: query
+          schema:
+            type: string
+        - name: geocode
+          in: query
+          schema:
+            type: string
+        - name: format
+          in: query
+          schema:
+            type: string
+        - name: callback
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A JSON array of libraries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Library'
+components:
+  schemas:
+    Library:
+      type: object
+      properties:
+        libid:
+          type: integer
+          description: 図書館のユニークID
+          example: 104106
+        formal:
+          type: string
+          description: 正式名称
+          example: 国立国会図書館 東京本館
+        short:
+          type: string
+          description: 略称
+          example: 東京本館
+        systemid:
+          type: string
+          description: システムID
+          example: Tokyo_NDL
+        systemname:
+          type: string
+          description: システム名称
+          example: 国立国会図書館
+        libkey:
+          type: string
+          description: システム毎の図書館キー
+          example: 東京本館
+        category:
+          type: string
+          enum:
+            - SMALL # 図書室・公民館
+            - MEDIUM # 図書館(地域)
+            - LARGE # 図書館(広域)
+            - UNIV # 大学
+            - SPECIAL # 専門
+            - BM # 移動・BM
+          description: カテゴリー
+          example: LARGE
+        post:
+          type: string
+          description: 郵便番号
+          example: 100-8924
+        tel:
+          type: string
+          description: 電話番号
+          example: 03-3581-2331
+        pref:
+          type: string
+          description: 都道府県
+          example: 東京都
+        city:
+          type: string
+          description: 市町村
+          example: 千代田区
+        address:
+          type: string
+          description: 住所
+          example: 東京都千代田区永田町1-10-1
+        geocode:
+          type: string
+          description: 位置情報
+          example: 139.744202,35.6783682
+        isil:
+          type: string
+          description: ISIL
+          example: JP-1000001
+        faid:
+          type: string
+          description: 参加組織ID
+          example: FA012345
+        url_pc:
+          type: string
+          description: PC版ウェブサイト
+          example: http://www.ndl.go.jp
